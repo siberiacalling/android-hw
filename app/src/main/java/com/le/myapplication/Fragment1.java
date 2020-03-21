@@ -22,7 +22,7 @@ public class Fragment1 extends Fragment implements MyRecyclerViewAdapter.ItemCli
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1, container, false);
+        View rootView = inflater.inflate(R.layout.fragment1, null);
         ArrayList<Integer> numbers = new ArrayList<>();
         for (int i = 0; i <= 100; i++) {
             numbers.add(i);
@@ -30,11 +30,12 @@ public class Fragment1 extends Fragment implements MyRecyclerViewAdapter.ItemCli
 
         RecyclerView recyclerView = rootView.findViewById(R.id.recycleViewNumbers);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+
         adapter = new MyRecyclerViewAdapter(getActivity(), numbers);
         adapter.setClickListener(this);
         recyclerView.setAdapter(adapter);
-        addBtn = rootView.findViewById(R.id.addButton);
 
+        addBtn = rootView.findViewById(R.id.addButton);
         View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,5 +56,6 @@ public class Fragment1 extends Fragment implements MyRecyclerViewAdapter.ItemCli
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(getActivity(), "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+        ((MainActivity)getActivity()).replaceFragment();
     }
 }
