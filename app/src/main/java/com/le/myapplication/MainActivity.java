@@ -1,57 +1,40 @@
 package com.le.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
-import java.util.ArrayList;
+public class MainActivity extends Activity {
+    Fragment1 frag1;
+    Fragment2 frag2;
+    FragmentTransaction fTrans;
 
-public class MainActivity extends AppCompatActivity implements MyRecyclerViewAdapter.ItemClickListener {
-
-    MyRecyclerViewAdapter adapter;
-    Button addBtn;
-    Integer currentNumber = 100;
-    Integer currentIndex = 100;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayList<Integer> numbers = new ArrayList<>();
-        for (int i = 0; i <= 100; i++) {
-            numbers.add(i);
-        }
-
-        RecyclerView recyclerView = findViewById(R.id.recycleViewNumbers);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new MyRecyclerViewAdapter(this, numbers);
-        adapter.setClickListener(this);
-        recyclerView.setAdapter(adapter);
-        addBtn = findViewById(R.id.addButton);
-
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentNumber++;
-                currentIndex++;
-                Toast.makeText(getApplicationContext(),
-                        "Number: " + currentNumber + "Index: " + currentIndex, Toast.LENGTH_SHORT).show();
-
-
-                adapter.mData.add(currentIndex, currentNumber);
-                adapter.notifyItemInserted(currentIndex);
-            }
-        };
-        addBtn.setOnClickListener(onClickListener);
+        frag1 = new Fragment1();
+        frag2 = new Fragment2();
+        fTrans = getFragmentManager().beginTransaction();
+        fTrans.add(R.id.frgmCont, frag1);
+        fTrans.addToBackStack(null);
+        fTrans.commit();
     }
 
-    @Override
-    public void onItemClick(View view, int position) {
-        Toast.makeText(this, "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
+    public void onClick(View v) {
+//        switch (v.getId()) {
+//            case R.id.btnAdd:
+//                fTrans.add(R.id.frgmCont, frag1);
+//                break;
+//            case R.id.btnRemove:
+//                fTrans.remove(frag1);
+//                break;
+//            case R.id.btnReplace:
+//                fTrans.replace(R.id.frgmCont, frag2);
+//            default:
+//                break;
+//        }
     }
 }
