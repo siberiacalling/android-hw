@@ -42,18 +42,4 @@ public class MainActivity extends Activity {
         fTrans.commit();
     }
 
-    public void onClick(View v) {
-//        switch (v.getId()) {
-//            case R.id.btnAdd:
-//                fTrans.add(R.id.frgmCont, frag1);
-//                break;
-//            case R.id.btnRemove:
-//                fTrans.remove(frag1);
-//                break;
-//            case R.id.btnReplace:
-//                fTrans.replace(R.id.frgmCont, frag2);
-//            default:
-//                break;
-//        }
-    }
 }
