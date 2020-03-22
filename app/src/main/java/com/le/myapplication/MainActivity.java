@@ -1,45 +1,35 @@
 package com.le.myapplication;
-
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
     Fragment1 frag1;
-    Fragment2 frag2;
     FragmentTransaction fTrans;
-    Integer currentFragment = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        frag1 = new Fragment1();
-        frag2 = new Fragment2();
-
-        fTrans = getFragmentManager().beginTransaction();
-        fTrans.add(R.id.frgmCont, frag1);
-        fTrans.addToBackStack(null);
-        fTrans.commit();
-    }
-
-    public void replaceFragment() {
-        fTrans = getFragmentManager().beginTransaction();
-        if (currentFragment == 1) {
-            fTrans.replace(R.id.frgmCont, frag2);
-            // frag2.setTextViewText("puk");
-            currentFragment = 2;
+        if (savedInstanceState == null) {
+            Toast.makeText(this, "new shit", Toast.LENGTH_SHORT).show();
+            frag1 = new Fragment1();
+            fTrans = getFragmentManager().beginTransaction();
+            fTrans.add(R.id.frgmCont, frag1);
+            fTrans.addToBackStack(null);
+            fTrans.commit();
         } else {
-            fTrans.replace(R.id.frgmCont, frag1);
-            currentFragment = 1;
+            Toast.makeText(this, "old shit", Toast.LENGTH_SHORT).show();
+            frag1 = (Fragment1) getFragmentManager().getFragment(savedInstanceState, "Fragment1");
         }
-
-        fTrans.addToBackStack(null);
-        fTrans.commit();
     }
-
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        getFragmentManager().putFragment(outState, "Fragment1", frag1);
+    }
 }

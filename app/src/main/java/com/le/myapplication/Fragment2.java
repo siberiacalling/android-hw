@@ -1,6 +1,7 @@
 package com.le.myapplication;
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,30 +14,28 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 public class Fragment2 extends Fragment {
-    Button backBtn;
     TextView tv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment2, null);
+        tv = (TextView) rootView.findViewById(R.id.textViewFrag2);
+        tv.setTextColor(Color.argb(255, 255, 255, 255));
 
-        tv = (TextView)rootView.findViewById(R.id.textViewFrag2);
-        backBtn = rootView.findViewById(R.id.backButton);
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity().getApplicationContext(),
-                        "Back!", Toast.LENGTH_SHORT).show();
-                ((MainActivity) getActivity()).replaceFragment();
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            String numberString = bundle.getString("test");
+            if (numberString != null) {
+                tv.setText(numberString);
             }
-        };
-        backBtn.setOnClickListener(onClickListener);
+            int number = Integer.parseInt(numberString);
+            if (number % 2 == 0) {
+                tv.setBackgroundColor(Color.argb(150, 141, 1, 1));
+            } else {
+                tv.setBackgroundColor(Color.argb(150, 15, 1, 141));
+            }
+        }
         return rootView;
-    }
-
-
-    public void setTextViewText(String value) {
-        tv.setText(value);
     }
 }
