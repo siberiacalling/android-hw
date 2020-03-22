@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,14 +20,20 @@ public class Fragment1 extends Fragment implements MyRecyclerViewAdapter.ItemCli
     Integer currentNumber;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment1, null);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             currentNumber = 100;
         } else {
             currentNumber = savedInstanceState.getInt("currentNumber");
         }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment1, null);
+
 
         ArrayList<Integer> numbers = new ArrayList<>();
         for (int i = 0; i <= currentNumber; i++) {
@@ -64,10 +68,10 @@ public class Fragment1 extends Fragment implements MyRecyclerViewAdapter.ItemCli
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
+        Toast.makeText(getActivity(), "onSaveInstanceState", Toast.LENGTH_SHORT).show();
         super.onSaveInstanceState(outState);
         outState.putInt("currentNumber", currentNumber);
     }
-
 
     @Override
     public void onItemClick(View view, int position) {
