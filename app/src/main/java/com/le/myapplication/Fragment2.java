@@ -19,7 +19,7 @@ public class Fragment2 extends Fragment {
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String numberString = bundle.getString("test");
+            String numberString = bundle.getString("selectedNumber");
             if (numberString != null) {
                 tv.setText(numberString);
             }

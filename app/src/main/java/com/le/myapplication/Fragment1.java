@@ -1,5 +1,6 @@
 package com.le.myapplication;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
@@ -19,6 +20,20 @@ public class Fragment1 extends Fragment implements MyRecyclerViewAdapter.ItemCli
     Button addBtn;
     Integer currentNumber;
 
+    public interface onSomeEventListener {
+        public void changeToFragment2(String s);
+    }
+    onSomeEventListener EventListener;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            EventListener = (onSomeEventListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " must implement onSomeEventListener");
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,24 +83,12 @@ public class Fragment1 extends Fragment implements MyRecyclerViewAdapter.ItemCli
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        Toast.makeText(getActivity(), "onSaveInstanceState", Toast.LENGTH_SHORT).show();
         super.onSaveInstanceState(outState);
         outState.putInt("currentNumber", currentNumber);
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(getActivity(), "You clicked " + adapter.getItem(position) + " on row number " + position, Toast.LENGTH_SHORT).show();
-
-        Fragment2 frag2 = new Fragment2();
-
-        Bundle bundle = new Bundle();
-        bundle.putString("test", Integer.toString(adapter.getItem(position)));
-        frag2.setArguments(bundle);
-
-        FragmentTransaction fTrans = getFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont, frag2);
-        fTrans.addToBackStack(null);
-        fTrans.commit();
+        EventListener.changeToFragment2(Integer.toString(adapter.getItem(position)));
     }
 }

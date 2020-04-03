@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import com.le.myapplication.Fragment1.onSomeEventListener;
+
+
+public class MainActivity extends AppCompatActivity implements onSomeEventListener {
     Fragment1 frag1;
     FragmentTransaction fTrans;
 
@@ -14,18 +17,29 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            Toast.makeText(this, "new shit", Toast.LENGTH_SHORT).show();
             frag1 = new Fragment1();
             fTrans = getFragmentManager().beginTransaction();
             fTrans.add(R.id.frgmCont, frag1);
-            fTrans.addToBackStack(null);
             fTrans.commit();
         } else {
-            Toast.makeText(this, "old shit", Toast.LENGTH_SHORT).show();
             frag1 = (Fragment1) getFragmentManager().getFragment(savedInstanceState, "Fragment1");
         }
     }
-    
+
+    @Override
+    public void changeToFragment2(String selectedNumber) {
+        Fragment2 frag2 = new Fragment2();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("selectedNumber", selectedNumber);
+        frag2.setArguments(bundle);
+
+        FragmentTransaction fTrans = getFragmentManager().beginTransaction();
+        fTrans.replace(R.id.frgmCont, frag2);
+        fTrans.addToBackStack(null);
+        fTrans.commit();
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
