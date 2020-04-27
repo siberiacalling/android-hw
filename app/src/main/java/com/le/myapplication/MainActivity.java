@@ -19,8 +19,7 @@ public class MainActivity extends AppCompatActivity implements onSomeEventListen
         if (savedInstanceState == null) {
             frag1 = new Fragment1();
             fTrans = getFragmentManager().beginTransaction();
-            fTrans.add(R.id.frgmCont, frag1);
-            fTrans.commit();
+            fTrans.add(R.id.frgmCont, frag1).commit();
         } else {
             frag1 = (Fragment1) getFragmentManager().getFragment(savedInstanceState, "Fragment1");
         }
@@ -35,9 +34,7 @@ public class MainActivity extends AppCompatActivity implements onSomeEventListen
         frag2.setArguments(bundle);
 
         FragmentTransaction fTrans = getFragmentManager().beginTransaction();
-        fTrans.replace(R.id.frgmCont, frag2);
-        fTrans.addToBackStack(null);
-        fTrans.commit();
+        fTrans.replace(R.id.frgmCont, frag2).addToBackStack(null).commit();
     }
 
     @Override
